@@ -64,6 +64,7 @@ int main()
 {
     FILE *fp;
     int choice;
+    int mmbrFound = 0;
     struct member member;
     char passwordVerify[50];
 
@@ -102,13 +103,54 @@ int main()
                 
                 else
                 printf("\n\nFailed!");
+                fclose(fp);
             }
             else
             {
                 printf("\n\nYour password didn't match!");
                 Beep(750, 300);
             }
-     }
+        break;
 
+        case 2:
+            char username[50];
+            char passWord[50];
+            struct member mmbr;
+
+            printf("\n Enter your username: ");
+            takeinput(username);
+            printf("\n Enter your password: ");
+            takePassword(passWord);
+
+            fp = fopen("Member.dat", "r");
+            while(fread(&mmbr, sizeof(struct member), 1, fp));
+                if(!strcmp(mmbr.username, username))
+                {
+                    if(!strcmp(mmbr.password, passWord))
+                    {
+                        printf("\n\t\t\t\tWelcome %s", mmbr.fullName);
+                        printf("\n\n|Full Name: %s", mmbr.fullName);
+                        printf("\n|Email: &s", mmbr.email);
+                        printf("\n|User-Name: %s", mmbr.username);
+                        printf("\n|Phone Number: %s", mmbr.phoneNumber);
+                    }
+                    else
+                    {
+                        printf("\n\nInvalid Password!");
+                        Beep(750,300);
+                    }
+                    mmbrFound = 1;
+                }
+     
+
+     if(!mmbrFound)
+     {
+        printf("\n\nThis user doesn't exist!");
+        Beep(750, 300);
+     }
+     fcloese(fp);
+     break;
+    }
+    
     return 0;
 }
