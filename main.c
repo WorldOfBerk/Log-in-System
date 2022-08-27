@@ -20,11 +20,11 @@ void takeinput(char ch[100])
     ch[strlen(ch) - 1] = 0;
 }
 
-void createUsername(char email[100], char username[50])
+char createUsername(char email[100], char username[50])
 {
     for(int i = 0; i < strlen(email); i++)
     {
-        if(email[i] = '@')
+        if(email[i] == '@')
         break;
 
         else
@@ -62,8 +62,10 @@ void takePassword(char pass[50])
 
 int main()
 {
+    FILE *fp;
     int choice;
     struct member member;
+    char passwordVerify[50];
 
     printf("\n\t\t\t\t---------------Welcome to Log-in System---------------");
     printf("\nSelect one of the options>");
@@ -86,6 +88,26 @@ int main()
             takeinput(member.phoneNumber);
             printf("Enter your password: ");
             takePassword(member.password);
+            printf("\nConfirm your password: ");
+            takePassword(passwordVerify);
+
+            if(!strcmp(member.password,passwordVerify))
+            {
+                createUsername(member.email, member.username);
+                fp = fopen("Member.dat", "a+");
+                fwrite(&member, sizeof(struct member), 1, fp);
+                
+                if(fwrite != 0)
+                printf("\n\nUser registration successfully completed. Your user-name is: %s", member.username);
+                
+                else
+                printf("\n\nFailed!");
+            }
+            else
+            {
+                printf("\n\nYour password didn't match!");
+                Beep(750, 300);
+            }
      }
 
     return 0;
