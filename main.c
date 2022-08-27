@@ -67,6 +67,8 @@ int main()
     int mmbrFound = 0;
     struct member member;
     char passwordVerify[50];
+    char userName[50], passWord[50];
+    struct member mmbr;
 
     printf("\n\t\t\t\t---------------Welcome to Log-in System---------------");
     printf("\nSelect one of the options>");
@@ -81,6 +83,7 @@ int main()
     switch (choice)
     {
         case 1:
+            system("cls");
             printf("\nEnter your full name: ");
             takeinput(member.fullName);
             printf("Enter your email: ");
@@ -113,24 +116,21 @@ int main()
         break;
 
         case 2:
-            char username[50];
-            char passWord[50];
-            struct member mmbr;
-
             printf("\n Enter your username: ");
-            takeinput(username);
+            takeinput(userName);
             printf("\n Enter your password: ");
             takePassword(passWord);
 
             fp = fopen("Member.dat", "r");
             while(fread(&mmbr, sizeof(struct member), 1, fp));
-                if(!strcmp(mmbr.username, username))
+                if(!strcmp(mmbr.username, userName))
                 {
                     if(!strcmp(mmbr.password, passWord))
                     {
+                        system("cls");
                         printf("\n\t\t\t\tWelcome %s", mmbr.fullName);
                         printf("\n\n|Full Name: %s", mmbr.fullName);
-                        printf("\n|Email: &s", mmbr.email);
+                        printf("\n|Email: %s", mmbr.email);
                         printf("\n|User-Name: %s", mmbr.username);
                         printf("\n|Phone Number: %s", mmbr.phoneNumber);
                     }
@@ -143,14 +143,18 @@ int main()
                 }
      
 
-     if(!mmbrFound)
-     {
-        printf("\n\nThis user doesn't exist!");
-        Beep(750, 300);
-     }
-     fcloese(fp);
-     break;
+        if(!mmbrFound)
+        {
+            printf("\n\nThis user doesn't exist!");
+            Beep(750, 300);
+        }
+        fclose(fp);
+        break;
+
+        case 3:
+            printf("\t\t\t\tQUIT!");
+            return 0;
     }
-    
+
     return 0;
 }
